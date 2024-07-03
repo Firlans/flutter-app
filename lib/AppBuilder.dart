@@ -1,41 +1,63 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'ButtonCetak.dart';
-import 'DropdownButton.dart';
+import 'DropDownButton.dart';
 import 'ImageWidget.dart';
 import 'TagihanWidget.dart';
 
-class AppBuilder extends StatefulWidget {
+class Appbuilder extends StatefulWidget {
   @override
   _DropdownScreenState createState() => _DropdownScreenState();
 }
 
-class _DropdownScreenState extends State<AppBuilder> {
+class _DropdownScreenState extends State<Appbuilder> {
   String? selectedItem;
-  List<String> items = [];
-  Map<String, List<Map<String, dynamic>>> tagihanData = {};
-  List<Map<String, dynamic>> tagihan = [];
+  final List<String> items = [
+    '2023/2024',
+    '2022/2023'
+  ]; // Tahun ajaran saat ini dan sebelumnya
+
+  // Contoh data tagihan untuk setiap tahun ajaran
+  final Map<String, List<Map<String, dynamic>>> tagihanData = {
+    '2023/2024': [
+      {
+        'bulan': 'Januari',
+        'jml_bayar': 100000,
+        'tgl_bayar': '2024-01-15',
+        'status': 'Belum Dibayar'
+      },
+      {
+        'bulan': 'Februari',
+        'jml_bayar': 100000,
+        'tgl_bayar': '2024-02-15',
+        'status': 'Sudah Dibayar'
+      },
+      // Tambahkan data tagihan lainnya untuk tahun ajaran 2023/2024 di sini
+    ],
+    '2022/2023': [
+      {
+        'bulan': 'September',
+        'jml_bayar': 100000,
+        'tgl_bayar': '2023-09-15',
+        'status': 'Sudah Dibayar'
+      },
+      {
+        'bulan': 'Oktober',
+        'jml_bayar': 100000,
+        'tgl_bayar': '2023-10-15',
+        'status': 'Sudah Dibayar'
+      },
+      // Tambahkan data tagihan lainnya untuk tahun ajaran 2022/2023 di sini
+    ],
+  };
+
+  List<Map<String, dynamic>> tagihan =
+      []; // Tagihan yang ditampilkan sesuai tahun ajaran dipilih
 
   @override
   void initState() {
     super.initState();
-    fetchData();
-  }
-
-  Future<void> fetchData() async {
-    final jsonString = await rootBundle.loadString('../assets/data/data.json');
-    final data = json.decode(jsonString) as Map<String, dynamic>;
-
-    setState(() {
-      tagihanData = data.map((key, value) => MapEntry(
-        key,
-        (value as List).map((e) => e as Map<String, dynamic>).toList(),
-      ));
-      items = tagihanData.keys.toList();
-      tagihan = tagihanData[items.first]!;
-    });
+    // Set tagihan awal saat pertama kali aplikasi dimuat
+    tagihan = tagihanData[items.first]!;
   }
 
   @override
@@ -82,3 +104,5 @@ class _DropdownScreenState extends State<AppBuilder> {
     );
   }
 }
+
+void main() => runApp(MaterialApp(home: Appbuilder()));
