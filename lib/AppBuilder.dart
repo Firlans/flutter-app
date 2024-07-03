@@ -4,12 +4,12 @@ import 'DropdownButton.dart';
 import 'ImageWidget.dart';
 import 'TagihanWidget.dart';
 
-class Appbuilder extends StatefulWidget {
+class AppBuilder extends StatefulWidget {
   @override
   _DropdownScreenState createState() => _DropdownScreenState();
 }
 
-class _DropdownScreenState extends State<Appbuilder> {
+class _DropdownScreenState extends State<AppBuilder> {
   String? selectedItem;
   final List<String> items = [
     '2023/2024',
