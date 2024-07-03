@@ -114,6 +114,8 @@ VALUES ();
 -- INSERT DATA
 INSERT INTO pembayaran(id_ta, id_mahasiswa, tgl_pembayaran, jumlah_bayar, metode_bayar)
 VALUES ();
+
+
 -- SELECT DATA
 SELECT 
     mahasiswa.id,
