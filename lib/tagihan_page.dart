@@ -2,34 +2,42 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:printing/printing.dart'; // Import package printing
-import 'dropDownButton.dart';
+import 'DropdownButton.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-class TagihanPage extends StatefulWidget {
-  const TagihanPage({super.key});
+class TransaksiPage extends StatefulWidget {
+  const TransaksiPage({super.key});
 
   @override
-  _TagihanPageState createState() => _TagihanPageState();
+  _TransaksiPageState createState() => _TransaksiPageState();
 }
 
-class _TagihanPageState extends State<TagihanPage> {
+class _TransaksiPageState extends State<TransaksiPage> {
   String? selectedItem;
   List<String> items = [];
   Map<String, List<Map<String, dynamic>>> tagihanData = {};
   List<Map<String, dynamic>> tagihan = [];
+  List<Map<String, dynamic>> transaksi = [];
+
 
   @override
   void initState() {
     super.initState();
-    fetchData();
+    getTransaksi();
   }
 
-  Future<void> fetchData() async {
-    final jsonString =
-    await rootBundle.loadString("../assets/data/tagihan.json"); // Path sesuai dengan struktur proyek Anda
+  Future<String> getTahunAjaran() async{
+    final jsonString = await rootBundle.loadString("data/profile.json");
     final data = json.decode(jsonString) as Map<String, dynamic>;
+    return data['tahun ajaran'];
+  }
 
+  Future<void> getTransaksi() async {
+    final jsonString =
+    await rootBundle.loadString("data/data.json"); // Path sesuai dengan struktur proyek Anda
+    final data = json.decode(jsonString) as Map<String, dynamic>;
+    final tahunAjaran = await getTahunAjaran();
     setState(() {
       tagihanData = data.map((key, value) => MapEntry(
         key,
@@ -38,10 +46,11 @@ class _TagihanPageState extends State<TagihanPage> {
       items = tagihanData.keys.toList();
       selectedItem = items.first;
       tagihan = tagihanData[selectedItem!]!;
+      transaksi = tagihan.where((item) => item["status"] == "Sudah Dibayar").toList();
     });
   }
 
-  void _printTagihanReport() {
+  void _printTransaksiReport() {
     // Membuat list data untuk tabel
     List<List<dynamic>> data = [];
 
@@ -53,11 +62,11 @@ class _TagihanPageState extends State<TagihanPage> {
       'Tanggal Bayar',
     ]);
 
-    // Menambahkan data dari tagihan ke dalam list data
-    for (var item in tagihan) {
+    // Menambahkan data dari transaksi ke dalam list data
+    for (var item in transaksi) {
       data.add([
         item['bulan'],
-        item['status'] == 'Sudah Dibayar' ? 'Lunas' : 'Belum Lunas',
+        item['status'] = 'Lunas',
         item['jml_bayar'].toString(),
         item['tgl_bayar'],
       ]);
@@ -89,7 +98,7 @@ class _TagihanPageState extends State<TagihanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tagihan'),
+        title: const Text('Transaksi'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -103,7 +112,7 @@ class _TagihanPageState extends State<TagihanPage> {
                 setState(() {
                   selectedItem = newValue;
                   // Update tagihan yang ditampilkan sesuai tahun ajaran dipilih
-                  tagihan = tagihanData[newValue!]!;
+                  transaksi = tagihanData[newValue!]!;
                 });
               },
             ),
@@ -111,7 +120,7 @@ class _TagihanPageState extends State<TagihanPage> {
             ElevatedButton(
               onPressed: () {
                 // Implementasi fungsi cetak
-                _printTagihanReport();
+                _printTransaksiReport();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.teal, // Warna latar belakang
@@ -134,7 +143,7 @@ class _TagihanPageState extends State<TagihanPage> {
                     DataColumn(label: Text('Jumlah Bayar')),
                     DataColumn(label: Text('Tanggal Bayar')),
                   ],
-                  rows: tagihan.map((item) {
+                  rows: transaksi.map((item) {
                     return DataRow(cells: [
                       DataCell(Text(item['bulan'])),
                       DataCell(Text(
