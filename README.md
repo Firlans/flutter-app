@@ -3,6 +3,14 @@
 <p>go get -u gorm.io/gorm</p>
 <p>go get -u gorm.io/driver/mysql</p>
 <p>go get -u github.com/gin-contrib/cors</p>
+<h2>CONFIG</h2>
+<p>buka file config/connection.go</p>
+<p>ubah DSN unutk connect ke mysql</p>
+<p>usernamme:Password@tcp(host:port)/namaDatabase?charset=utf8mb4&parseTime=True&loc=Local</p>
+<p>Example</p>
+<pre>
+dsn := "mrg:123123123@tcp(localhost:3306)/flutter_app?charset=utf8mb4&parseTime=True&loc=Local"
+</pre>
 
 <h2>ENDPOINT</h2>
 <ul>
