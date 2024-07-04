@@ -6,7 +6,7 @@
 <h2>CONFIG</h2>
 <p>buka file config/connection.go</p>
 <p>ubah DSN unutk connect ke mysql</p>
-<p>usernamme:Password@tcp(host:port)/namaDatabase?charset=utf8mb4&parseTime=True&loc=Local</p>
+<p>username:Password@tcp(host:port)/namaDatabase?charset=utf8mb4&parseTime=True&loc=Local</p>
 <p>Example</p>
 <pre>
 dsn := "mrg:123123123@tcp(localhost:3306)/flutter_app?charset=utf8mb4&parseTime=True&loc=Local"
