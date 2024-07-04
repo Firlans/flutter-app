@@ -1,0 +1,56 @@
+[
+  {
+    "bulan": "Juli",
+    "jml_bayar": 100000,
+    "tgl_bayar": "2023-07-15",
+    "status": "Sudah Dibayar"
+  },
+  {
+    "bulan": "Agustus",
+    "jml_bayar": 100000,
+    "tgl_bayar": "2023-08-15",
+    "status": "Sudah Dibayar"
+  },
+  {
+    "bulan": "September",
+    "jml_bayar": 100000,
+    "tgl_bayar": "2023-09-15",
+    "status": "Sudah Dibayar"
+  },
+  {
+    "bulan": "Oktober",
+    "jml_bayar": 100000,
+    "tgl_bayar": "2023-10-15",
+    "status": "Sudah Dibayar"
+  },
+  {
+    "bulan": "November",
+    "jml_bayar": 100000,
+    "tgl_bayar": "2023-11-15",
+    "status": "Sudah Dibayar"
+  },
+  {
+    "bulan": "Desember",
+    "jml_bayar": 100000,
+    "tgl_bayar": "2023-12-15",
+    "status": "Sudah Dibayar"
+  },
+  {
+    "bulan": "Januari",
+    "jml_bayar": 100000,
+    "tgl_bayar": "2024-01-15",
+    "status": "Sudah Dibayar"
+  },
+  {
+    "bulan": "Februari",
+    "jml_bayar": 100000,
+    "tgl_bayar": "2024-02-15",
+    "status": "Sudah Dibayar"
+  },
+  {
+    "bulan": "Maret",
+    "jml_bayar": 100000,
+    "tgl_bayar": "2024-03-15",
+    "status": "Sudah Dibayar"
+  }
+]

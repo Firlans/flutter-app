@@ -1,68 +1,79 @@
-[
-  {
-    "bulan": 1,
-    "status_bayar": "lunas",
-    "tanggal_bayar": "2023-01-10",
-    "jumlah_bayar": 500000
-  },
-  {
-    "bulan": 2,
-    "status_bayar": "lunas",
-    "tanggal_bayar": "2023-02-10",
-    "jumlah_bayar": 500000
-  },
-  {
-    "bulan": 3,
-    "status_bayar": "belum lunas",
-    "tanggal_bayar": "",
-    "jumlah_bayar": 500000
-  },
-  {
-    "bulan": 4,
-    "status_bayar": "belum lunas",
-    "tanggal_bayar": "",
-    "jumlah_bayar": 500000
-  },
-  {
-    "bulan": 5,
-    "status_bayar": "belum lunas",
-    "tanggal_bayar": "",
-    "jumlah_bayar": 500000
-  },
-  {
-    "bulan": 6,
-    "status_bayar": "belum lunas",
-    "tanggal_bayar": "",
-    "jumlah_bayar": 500000
-  },
-  {
-    "bulan": 7,
-    "status_bayar": "belum lunas",
-    "tanggal_bayar": "",
-    "jumlah_bayar": 500000
-  },
-  {
-    "bulan": 8,
-    "status_bayar": "belum lunas",
-    "tanggal_bayar": "",
-    "jumlah_bayar": 500000
-  },
-  {
-    "bulan": 9,
-    "status_bayar": "belum lunas",
-    "tanggal_bayar": "",
-    "jumlah_bayar": 500000
-  },
-  {
-    "bulan": 10,
-    "status_bayar": "belum lunas",
-    "tanggal_bayar": "",
-    "jumlah_bayar": 500000
-  },
-  {
-    "bulan": 11,
-    "status_bayar": "belum lunas",
-    "tanggal_bayar": "",
-    "jumlah_bayar": 500000
-  }
-]
+{
+  "2022/2023": [
+    {
+      "bulan": "Juli",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2023-07-15",
+      "status": "Sudah Dibayar"
+    },
+    {
+      "bulan": "Agustus",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2023-08-15",
+      "status": "Sudah Dibayar"
+    },
+    {
+      "bulan": "September",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2023-09-15",
+      "status": "Sudah Dibayar"
+    },
+    {
+      "bulan": "Oktober",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2023-10-15",
+      "status": "Sudah Dibayar"
+    },
+    {
+      "bulan": "November",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2023-11-15",
+      "status": "Sudah Dibayar"
+    },
+    {
+      "bulan": "Desember",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2023-12-15",
+      "status": "Sudah Dibayar"
+    }
+  ],
+
+  "2023/2024": [
+    {
+      "bulan": "Januari",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2024-01-15",
+      "status": "Sudah Dibayar"
+    },
+    {
+      "bulan": "Februari",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2024-02-15",
+      "status": "Sudah Dibayar"
+    },
+    {
+      "bulan": "Maret",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2024-03-15",
+      "status": "Sudah Dibayar"
+    },
+    {
+      "bulan": "April",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2024-04-15",
+      "status": "Belum Dibayar"
+    },
+    {
+      "bulan": "Mei",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2024-05-15",
+      "status": "Belum Dibayar"
+    },
+    {
+      "bulan": "Juni",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2024-06-15",
+      "status": "Belum Dibayar"
+    }
+  ]
+}
