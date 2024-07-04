@@ -13,10 +13,8 @@
 </ul>
 
 <h2>CONTOH PENGGUNAAN</h2>
-
-<h3>POST</h3>
 <pre>
-localhost:1233/mahasiswa
+POST localhost:1233/mahasiswa
 {
 	"idta": 1,
 	"nim": "123456789012",
