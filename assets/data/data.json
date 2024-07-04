@@ -1,0 +1,30 @@
+{
+  "2023/2024": [
+    {
+      "bulan": "Januari",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2024-01-15",
+      "status": "Belum Dibayar"
+    },
+    {
+      "bulan": "Februari",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2024-02-15",
+      "status": "Sudah Dibayar"
+    }
+  ],
+  "2022/2023": [
+    {
+      "bulan": "September",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2023-09-15",
+      "status": "Sudah Dibayar"
+    },
+    {
+      "bulan": "Oktober",
+      "jml_bayar": 100000,
+      "tgl_bayar": "2023-10-15",
+      "status": "Sudah Dibayar"
+    }
+  ]
+}
