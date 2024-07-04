@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dashboard_siswa.dart';
+import '../models/jsonManager.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> loadUsers() async {
     try {
-      String jsonString = await rootBundle.loadString('../assets/data/login.json');
+      String jsonString = await rootBundle.loadString('data/login.json');
       List<dynamic> jsonResponse = json.decode(jsonString);
       setState(() {
         users = jsonResponse.map((user) => Map<String, dynamic>.from(user)).toList();
@@ -146,7 +147,10 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               TextFormField(
                 controller: _usernameController,
-                decoration: InputDecoration(labelText: 'Username'),
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  prefixIcon: Icon(Icons.person),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Mohon masukkan username Anda';
@@ -154,9 +158,13 @@ class _LoginPageState extends State<LoginPage> {
                   return null;
                 },
               ),
+              SizedBox(height: 12),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock),
+                ),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -170,7 +178,6 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: _login,
                 child: Text('Login'),
               ),
-              SizedBox(height: 12),
             ],
           ),
         ),
@@ -178,3 +185,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+

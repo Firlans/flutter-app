@@ -46,41 +46,61 @@ class _TagihanSiswaState extends State<TagihanSiswa> {
         title: Text('Tagihan SPP'),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          DropdownButton<String>(
-            value: selectedTahunAjaran,
-            items: tahunAjaranList.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (String? newValue) {
-              if (newValue != null) {
-                setState(() {
-                  selectedTahunAjaran = newValue;
-                  tagihanList = List<Map<String, dynamic>>.from(jsonData[newValue]);
-                });
-              }
-            },
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              columns: const [
-                DataColumn(label: Text('Bulan Tagihan')),
-                DataColumn(label: Text('Status Tagihan')),
-                DataColumn(label: Text('Jumlah Bayar')),
-                DataColumn(label: Text('Tanggal Bayar')),
-              ],
-              rows: tagihanList.map((item) {
-                return DataRow(cells: [
-                  DataCell(Text('Bulan ${item['bulan']}')),
-                  DataCell(Text(item['status'] == 'Sudah Dibayar' ? 'Lunas' : 'Belum Lunas')),
-                  DataCell(Text('Rp ${item['jml_bayar']}')),
-                  DataCell(Text(item['tgl_bayar'].toString())),
-                ]);
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: selectedTahunAjaran,
+              items: tahunAjaranList.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
               }).toList(),
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  setState(() {
+                    selectedTahunAjaran = newValue;
+                    tagihanList = List<Map<String, dynamic>>.from(jsonData[newValue]);
+                  });
+                }
+              },
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columnSpacing: 20.0,
+                  headingRowHeight: 40.0,
+                  dataRowHeight: 56.0,
+                  columns: const [
+                    DataColumn(label: Text('Bulan Tagihan')),
+                    DataColumn(label: Text('Status Tagihan')),
+                    DataColumn(label: Text('Jumlah Bayar')),
+                    DataColumn(label: Text('Tanggal Bayar')),
+                  ],
+                  rows: tagihanList.map((item) {
+                    return DataRow(cells: [
+                      DataCell(Text('Bulan ${item['bulan']}')),
+                      DataCell(
+                        Text(
+                          item['status'] == 'Sudah Dibayar' ? 'Lunas' : 'Belum Lunas',
+                          style: TextStyle(
+                            color: item['status'] == 'Sudah Dibayar' ? Colors.green : Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      DataCell(Text('Rp ${item['jml_bayar']}')),
+                      DataCell(Text(item['tgl_bayar'].toString())),
+                    ]);
+                  }).toList(),
+                ),
+              ),
             ),
           ),
         ],

@@ -36,14 +36,31 @@ class _RiwayatPembayaranState extends State<RiwayatPembayaran> {
           ? Center(
         child: CircularProgressIndicator(),
       )
-          : ListView.builder(
+          : ListView.separated(
+        padding: EdgeInsets.all(16.0),
         itemCount: riwayatList.length,
+        separatorBuilder: (context, index) => Divider(height: 0),
         itemBuilder: (context, index) {
           final riwayat = riwayatList[index];
-          return ListTile(
-            title: Text('Pembayaran SPP Bulan ${riwayat['bulan']}'),
-            subtitle: Text('Tanggal: ${riwayat['tgl_bayar']}'),
-            trailing: Text('Rp ${riwayat['jml_bayar']}'),
+          return Card(
+            elevation: 2.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: ListTile(
+              title: Text(
+                'Pembayaran SPP Bulan ${riwayat['bulan']}',
+                style: TextStyle(fontSize: 16.0),
+              ),
+              subtitle: Text(
+                'Tanggal: ${riwayat['tgl_bayar']}',
+                style: TextStyle(fontSize: 14.0),
+              ),
+              trailing: Text(
+                'Rp ${riwayat['jml_bayar']}',
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+              ),
+            ),
           );
         },
       ),

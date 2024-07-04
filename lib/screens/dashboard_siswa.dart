@@ -7,38 +7,52 @@ class DashboardSiswa extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Dashboard Siswa')),
-      body: GridView.count(
-        crossAxisCount: 2,
-        padding: EdgeInsets.all(16.0),
-        crossAxisSpacing: 16.0,
-        mainAxisSpacing: 16.0,
-        children: <Widget>[
-          DashboardItem(
-            title: 'Profil',
-            icon: Icons.person,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ProfilSiswa()),
+      appBar: AppBar(title: Text('Dashboard Admin')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(
+              'Selamat datang, Admin!',
+              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
-          ),
-          DashboardItem(
-            title: 'Tagihan',
-            icon: Icons.receipt_long,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => TagihanSiswa()),
+            SizedBox(height: 16.0),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16.0,
+                mainAxisSpacing: 16.0,
+                children: <Widget>[
+                  DashboardItem(
+                    title: 'Profil Siswa',
+                    icon: Icons.person,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfilSiswa()),
+                    ),
+                  ),
+                  DashboardItem(
+                    title: 'Tagihan',
+                    icon: Icons.receipt_long,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TagihanSiswa()),
+                    ),
+                  ),
+                  DashboardItem(
+                    title: 'Riwayat Pembayaran',
+                    icon: Icons.history,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RiwayatPembayaran()),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          DashboardItem(
-            title: 'Riwayat Pembayaran',
-            icon: Icons.history,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RiwayatPembayaran()),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -61,15 +75,15 @@ class DashboardItem extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             gradient: LinearGradient(
-              colors: [Colors.blue.shade200, Colors.blue.shade600],
+              colors: [Colors.blue.shade400, Colors.blue.shade700],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -78,7 +92,7 @@ class DashboardItem extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 14.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
