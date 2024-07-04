@@ -34,8 +34,7 @@ class _TransaksiPageState extends State<TransaksiPage> {
   }
 
   Future<void> getTransaksi() async {
-    final jsonString =
-    await rootBundle.loadString("data/data.json"); // Path sesuai dengan struktur proyek Anda
+    final jsonString = await rootBundle.loadString("data/tagihan.json"); // Path sesuai dengan struktur proyek Anda
     final data = json.decode(jsonString) as Map<String, dynamic>;
     final tahunAjaran = await getTahunAjaran();
     setState(() {
