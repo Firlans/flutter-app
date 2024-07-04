@@ -25,7 +25,6 @@ class _LoginPageState extends State<LoginPage> {
     try {
       String jsonString = await rootBundle.loadString('../assets/data/login.json');
       List<dynamic> jsonResponse = json.decode(jsonString);
-      print(jsonString);
       setState(() {
         users = jsonResponse.map((user) => Map<String, dynamic>.from(user)).toList();
       });
@@ -40,7 +39,6 @@ class _LoginPageState extends State<LoginPage> {
       String password = _passwordController.text.trim();
 
       bool isAuthenticated = false;
-      print(users);
       for (var user in users) {
         if (user['username'] == username && user['password'] == password) {
           isAuthenticated = true;
@@ -68,6 +66,71 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     }
+  }
+
+  void _showAddUserDialog() {
+    final _formKey = GlobalKey<FormState>();
+    final _usernameController = TextEditingController();
+    final _passwordController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Register'),
+        content: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: _usernameController,
+                decoration: InputDecoration(labelText: 'Username'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Mohon masukkan username';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: 'Password'),
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Mohon masukkan password';
+                  }
+                  return null;
+                },
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Batal'),
+          ),
+          TextButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                String username = _usernameController.text.trim();
+                String password = _passwordController.text.trim();
+                Map<String, dynamic> newUser = {
+                  'username': username,
+                  'password': password,
+                };
+                setState(() {
+                  users.add(newUser);
+                });
+                Navigator.pop(context); // Close dialog
+              }
+            },
+            child: Text('Tambah'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -106,6 +169,11 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                 onPressed: _login,
                 child: Text('Login'),
+              ),
+              SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: _showAddUserDialog,
+                child: Text('Tambah User'),
               ),
             ],
           ),

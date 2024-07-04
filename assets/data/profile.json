@@ -1,10 +1,24 @@
-{
-  "name": "Dafa Julianto Abdillah",
-  "nim": "12345678",
-  "dob": "01 Januari 2000",
-  "address": "Jl. Kebon Jeruk No. 10, Jakarta",
-  "parents": "Budi dan Siti",
-  "status": "Aktif",
-  "phone": "081234567890",
-  "image_url": "../assets/dd705e9b7148a56a8c24c9ce13525a89.webp"
-}
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "nim": "123456",
+    "dob": "2000-01-01",
+    "address": "123 Main St",
+    "parents": "Mr. and Mrs. Doe",
+    "status": "Aktif",
+    "phone": "123456789",
+    "image_url": "https://example.com/image1.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "nim": "654321",
+    "dob": "2001-02-02",
+    "address": "456 Elm St",
+    "parents": "Mr. and Mrs. Smith",
+    "status": "Aktif",
+    "phone": "987654321",
+    "image_url": "../assets/dd705e9b7148a56a8c24c9ce13525a89.webp"
+  }
+]
