@@ -1,13 +1,16 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:printing/printing.dart'; // Import package printing
-import 'DropdownButton.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'AppBuilder.dart';
 
 class TransaksiPage extends StatefulWidget {
-  const TransaksiPage({super.key});
+  final String nim; // Variabel nim untuk menyimpan NIM pengguna
+
+  const TransaksiPage({Key? key, required this.nim}) : super(key: key);
 
   @override
   _TransaksiPageState createState() => _TransaksiPageState();
@@ -20,40 +23,35 @@ class _TransaksiPageState extends State<TransaksiPage> {
   List<Map<String, dynamic>> tagihan = [];
   List<Map<String, dynamic>> transaksi = [];
 
-
   @override
   void initState() {
     super.initState();
     getTransaksi();
   }
 
-  Future<String> getTahunAjaran() async{
-    final jsonString = await rootBundle.loadString("data/profile.json");
-    final data = json.decode(jsonString) as Map<String, dynamic>;
-    return data['tahun ajaran'];
-  }
-
   Future<void> getTransaksi() async {
-    final jsonString = await rootBundle.loadString("data/tagihan.json"); // Path sesuai dengan struktur proyek Anda
+    final jsonString =
+    await rootBundle.loadString("data/tagihan.json");
     final data = json.decode(jsonString) as Map<String, dynamic>;
-    final tahunAjaran = await getTahunAjaran();
     setState(() {
       tagihanData = data.map((key, value) => MapEntry(
         key,
-        (value as List).map((e) => e as Map<String, dynamic>).toList(),
+        (value as List)
+            .map((e) => e as Map<String, dynamic>)
+            .toList(),
       ));
       items = tagihanData.keys.toList();
       selectedItem = items.first;
       tagihan = tagihanData[selectedItem!]!;
-      transaksi = tagihan.where((item) => item["status"] == "Sudah Dibayar").toList();
+      transaksi = tagihan
+          .where((item) => item["status"] == "Sudah Dibayar")
+          .toList();
     });
   }
 
   void _printTransaksiReport() {
-    // Membuat list data untuk tabel
     List<List<dynamic>> data = [];
 
-    // Menambahkan header kolom
     data.add([
       'Bulan Tagihan',
       'Status Tagihan',
@@ -61,25 +59,21 @@ class _TransaksiPageState extends State<TransaksiPage> {
       'Tanggal Bayar',
     ]);
 
-    // Menambahkan data dari transaksi ke dalam list data
     for (var item in transaksi) {
       data.add([
         item['bulan'],
-        item['status'] = 'Lunas',
+        'Lunas', // Ubah status menjadi 'Lunas'
         item['jml_bayar'].toString(),
         item['tgl_bayar'],
       ]);
     }
 
-    // Panggil fungsi untuk mencetak menggunakan platform printing
     _printData(data);
   }
 
   void _printData(List<List<dynamic>> data) async {
-    // Buat dokumen PDF
     final pdf = pw.Document();
 
-    // Tambahkan halaman PDF dengan tabel
     pdf.addPage(pw.MultiPage(
       build: (context) => [
         pw.Table.fromTextArray(
@@ -89,8 +83,8 @@ class _TransaksiPageState extends State<TransaksiPage> {
       ],
     ));
 
-    // Cetak dokumen menggunakan printer
-    await Printing.layoutPdf(onLayout: (PdfPageFormat format) async => pdf.save());
+    await Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => pdf.save());
   }
 
   @override
@@ -98,19 +92,31 @@ class _TransaksiPageState extends State<TransaksiPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Transaksi'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => Appbuilder(nim: widget.nim)),
+            );
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DropDownButtonWidget(
-              selectedItem: selectedItem,
-              items: items,
+            DropdownButton<String>(
+              value: selectedItem,
+              items: items.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
               onChanged: (String? newValue) {
                 setState(() {
                   selectedItem = newValue;
-                  // Update tagihan yang ditampilkan sesuai tahun ajaran dipilih
                   transaksi = tagihanData[newValue!]!;
                 });
               },
@@ -118,15 +124,15 @@ class _TransaksiPageState extends State<TransaksiPage> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Implementasi fungsi cetak
                 _printTransaksiReport();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal, // Warna latar belakang
+                backgroundColor: Colors.teal,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 textStyle: const TextStyle(fontSize: 16),
               ),
               child: const Text('Cetak'),
@@ -134,7 +140,7 @@ class _TransaksiPageState extends State<TransaksiPage> {
             const SizedBox(height: 20),
             Expanded(
               child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal, // Memungkinkan scroll secara horizontal
+                scrollDirection: Axis.horizontal,
                 child: DataTable(
                   columns: const [
                     DataColumn(label: Text('Bulan Tagihan')),
@@ -145,8 +151,7 @@ class _TransaksiPageState extends State<TransaksiPage> {
                   rows: transaksi.map((item) {
                     return DataRow(cells: [
                       DataCell(Text(item['bulan'])),
-                      DataCell(Text(
-                          item['status'] == 'Sudah Dibayar' ? 'Lunas' : 'Belum Lunas')),
+                      DataCell(Text('Lunas')),
                       DataCell(Text(item['jml_bayar'].toString())),
                       DataCell(Text(item['tgl_bayar'])),
                     ]);

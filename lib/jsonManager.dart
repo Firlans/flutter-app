@@ -13,7 +13,8 @@ class JsonManager {
     try {
       final file = File(filePath);
       if (!await file.exists()) {
-        return {};
+        print('File not found: $filePath');
+        return {}; // Mengembalikan map kosong jika file tidak ditemukan
       }
       final contents = await file.readAsString();
       final Map<String, dynamic> jsonData = jsonDecode(contents);

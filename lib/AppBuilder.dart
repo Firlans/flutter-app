@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,60 +15,43 @@ class Appbuilder extends StatefulWidget {
   Appbuilder({required this.nim}); // Update konstruktor
 
   @override
-  _DropdownScreenState createState() => _DropdownScreenState();
+  _AppbuilderState createState() => _AppbuilderState();
 }
 
-class _DropdownScreenState extends State<Appbuilder> {
+class _AppbuilderState extends State<Appbuilder> {
   String? selectedItem;
   String? userName;
   String? imagePath;
-  final List<String> items = [
-    '2023/2024',
-    '2022/2023'
-  ]; // Tahun ajaran saat ini dan sebelumnya
-
-  // Contoh data tagihan untuk setiap tahun ajaran
-  final Map<String, List<Map<String, dynamic>>> tagihanData = {
-    '2023/2024': [
-      {
-        'bulan': 'Januari',
-        'jml_bayar': 100000,
-        'tgl_bayar': '2024-01-15',
-        'status': 'Belum Dibayar'
-      },
-      {
-        'bulan': 'Februari',
-        'jml_bayar': 100000,
-        'tgl_bayar': '2024-02-15',
-        'status': 'Sudah Dibayar'
-      },
-      // Tambahkan data tagihan lainnya untuk tahun ajaran 2023/2024 di sini
-    ],
-    '2022/2023': [
-      {
-        'bulan': 'September',
-        'jml_bayar': 100000,
-        'tgl_bayar': '2023-09-15',
-        'status': 'Sudah Dibayar'
-      },
-      {
-        'bulan': 'Oktober',
-        'jml_bayar': 100000,
-        'tgl_bayar': '2023-10-15',
-        'status': 'Sudah Dibayar'
-      },
-      // Tambahkan data tagihan lainnya untuk tahun ajaran 2022/2023 di sini
-    ],
-  };
-
+  List<String> items = [];
+  Map<String, List<Map<String, dynamic>>> tagihanData = {};
   List<Map<String, dynamic>> tagihan = []; // Tagihan yang ditampilkan sesuai tahun ajaran dipilih
 
   @override
   void initState() {
     super.initState();
-    // Set tagihan awal saat pertama kali aplikasi dimuat
-    tagihan = tagihanData[items.first]!;
+    fetchData(); // Panggil fetchData saat initState
     loadUserData(); // Memuat data pengguna dari JSON
+  }
+
+  // Method untuk memuat data dari file JSON
+  Future<void> fetchData() async {
+    try {
+      final jsonString = await rootBundle.loadString('data/tagihan.json');
+      final data = json.decode(jsonString) as Map<String, dynamic>;
+
+      setState(() {
+        tagihanData = data.map((key, value) => MapEntry(
+          key,
+          (value as List).map((e) => e as Map<String, dynamic>).toList(),
+        ));
+        items = tagihanData.keys.toList();
+        selectedItem = items.first; // Pilih item pertama sebagai nilai default
+        tagihan = tagihanData[selectedItem!]!;
+      });
+    } catch (e) {
+      print('Error fetching data: $e');
+      // Handle error accordingly
+    }
   }
 
   // Method untuk memuat data pengguna
@@ -99,7 +84,7 @@ class _DropdownScreenState extends State<Appbuilder> {
               child: Text('NIM: ${widget.nim}', style: TextStyle(fontSize: 16)),
             ), // NIM di tengah
             SizedBox(height: 20), // Spacer antara tombol dan dropdown
-            ButtonCetak(), // Tambahkan tombol "Cetak" di sini
+            ButtonCetak(widget.nim), // Tambahkan tombol "Cetak" di sini dengan nilai nim
             SizedBox(height: 20), // Spacer antara tombol dan dropdown
             DropDownButtonWidget(
               selectedItem: selectedItem,
@@ -115,7 +100,8 @@ class _DropdownScreenState extends State<Appbuilder> {
             SizedBox(height: 20), // Spacer antara tombol dan dropdown
             Expanded(
               child: TagihanWidget(
-                  tagihan: tagihan), // Menampilkan informasi tagihan
+                tagihan: tagihan,
+              ), // Menampilkan informasi tagihan
             ),
           ],
         ),
