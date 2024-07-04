@@ -1,8 +1,8 @@
-install dependency
-go get -u github.com/gin-gonic/gin
-go get -u gorm.io/gorm
-go get -u gorm.io/driver/mysql
-go get -u github.com/gin-contrib/cors
+<h2>install dependency</h2>
+<p>go get -u github.com/gin-gonic/gin</p>
+<p>go get -u gorm.io/gorm</p>
+<p>go get -u gorm.io/driver/mysql</p>
+<p>go get -u github.com/gin-contrib/cors</p>
 
 <h2>ENDPOINT</h2>
 <ul>
@@ -15,6 +15,7 @@ go get -u github.com/gin-contrib/cors
 <h2>CONTOH PENGGUNAAN</h2>
 
 <h3>POST</h3>
+<pre>
 localhost:1233/mahasiswa
 {
 	"idta": 1,
@@ -25,7 +26,9 @@ localhost:1233/mahasiswa
 	"foto": null,
 	"status": "AKTIF"
 }
+</pre>
 
+<pre>
 POST localhost:1233/komponen
 {
   "KodeKomponen":"c",
@@ -33,7 +36,7 @@ POST localhost:1233/komponen
   "IdTa":1,
   "Biaya":1500000,
   "KodeKelas":20
-  }
+}
 
 PUT localhost:1233/komponen/1  <= '1' diganti id yang mau di edit
 {
@@ -45,3 +48,4 @@ PUT localhost:1233/komponen/1  <= '1' diganti id yang mau di edit
 }
 
 DELETE localhost:1233/komponen/2 <= '2' diganti id yang mau di edit
+</pre>
