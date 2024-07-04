@@ -64,7 +64,5 @@
     "status_bayar": "belum lunas",
     "tanggal_bayar": "",
     "jumlah_bayar": 500000
-  },
-  {
-    "bulan": 12,
-    "status_bayar": "belum
+  }
+]

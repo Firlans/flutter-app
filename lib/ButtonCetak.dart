@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'tagihan_page.dart';
 class ButtonCetak extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () {
-        print('Tombol Cetak Ditekan!');
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const TagihanPage()),
+        );
       },
       icon: Icon(Icons.print, size: 24),
       label: Text(

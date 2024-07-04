@@ -18,7 +18,7 @@ class _TagihanSiswaState extends State<TagihanSiswa> {
 
   Future<void> loadTagihanData() async {
     try {
-      final String response = await rootBundle.loadString('../assets/data/tagihan.json');
+      final String response = await rootBundle.loadString('data/tagihan.json');
       final List<dynamic> data = json.decode(response);
       setState(() {
         tagihanList = data.cast<Map<String, dynamic>>();

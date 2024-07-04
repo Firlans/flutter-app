@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/AppBuilder.dart';
 import 'package:printing/printing.dart'; // Import package printing
-import 'dropDownButton.dart';
+import 'DropdownButton.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -27,7 +28,7 @@ class _TagihanPageState extends State<TagihanPage> {
 
   Future<void> fetchData() async {
     final jsonString =
-    await rootBundle.loadString("../assets/data/tagihan.json"); // Path sesuai dengan struktur proyek Anda
+    await rootBundle.loadString("../assets/data/data.json"); // Path sesuai dengan struktur proyek Anda
     final data = json.decode(jsonString) as Map<String, dynamic>;
 
     setState(() {
@@ -90,6 +91,14 @@ class _TagihanPageState extends State<TagihanPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tagihan'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => Appbuilder()),
+            ); // Navigate back to the previous screen
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
