@@ -17,7 +17,7 @@ class _ProfilSiswaState extends State<ProfilSiswa> {
   }
 
   Future<void> loadStudentData() async {
-    final String response = await rootBundle.loadString('../assets/data/profile.json');
+    final String response = await rootBundle.loadString('data/profile.json');
     final data = await json.decode(response);
     setState(() {
       studentData = data;
