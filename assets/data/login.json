@@ -1,10 +1,6 @@
 [
   {
-    "username": "123",
-    "password": "123"
-  },
-  {
-    "username": "87654321",
-    "password": "password2"
+    "username": "admin",
+    "password": "admin"
   }
 ]

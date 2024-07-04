@@ -171,10 +171,6 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text('Login'),
               ),
               SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: _showAddUserDialog,
-                child: Text('Tambah User'),
-              ),
             ],
           ),
         ),

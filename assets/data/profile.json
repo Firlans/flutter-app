@@ -8,7 +8,7 @@
     "parents": "Mr. and Mrs. Doe",
     "status": "Aktif",
     "phone": "123456789",
-    "image_url": "https://example.com/image1.jpg"
+    "image_url": "../assets/images/image1.jpeg"
   },
   {
     "id": 2,
@@ -20,5 +20,115 @@
     "status": "Aktif",
     "phone": "987654321",
     "image_url": "../assets/dd705e9b7148a56a8c24c9ce13525a89.webp"
+  },
+  {
+    "id": 3,
+    "name": "Michael Johnson",
+    "nim": "246813",
+    "dob": "1999-05-15",
+    "address": "789 Oak St",
+    "parents": "Mr. and Mrs. Johnson",
+    "status": "Aktif",
+    "phone": "5551234567",
+    "image_url": "../assets/images/image3.jpeg"
+  },
+  {
+    "id": 4,
+    "name": "Emily Wilson",
+    "nim": "135792",
+    "dob": "2003-09-20",
+    "address": "321 Pine St",
+    "parents": "Mr. and Mrs. Wilson",
+    "status": "Aktif",
+    "phone": "5559876543",
+    "image_url": "../assets/images/image4.jpeg"
+  },
+  {
+    "id": 5,
+    "name": "David Brown",
+    "nim": "369258",
+    "dob": "2002-07-10",
+    "address": "567 Cedar St",
+    "parents": "Mr. and Mrs. Brown",
+    "status": "Aktif",
+    "phone": "5552468135",
+    "image_url": "../assets/images/image5.webp"
+  },
+  {
+    "id": 6,
+    "name": "Sophia Martinez",
+    "nim": "987654",
+    "dob": "2004-03-25",
+    "address": "876 Maple St",
+    "parents": "Mr. and Mrs. Martinez",
+    "status": "Aktif",
+    "phone": "5553692587",
+    "image_url": "../assets/images/image6.jpeg"
+  },
+  {
+    "id": 7,
+    "name": "Ethan Taylor",
+    "nim": "654987",
+    "dob": "2000-11-05",
+    "address": "234 Birch St",
+    "parents": "Mr. and Mrs. Taylor",
+    "status": "Aktif",
+    "phone": "5557894561",
+    "image_url": "../assets/images/image7.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Olivia Garcia",
+    "nim": "741852",
+    "dob": "2005-01-30",
+    "address": "432 Walnut St",
+    "parents": "Mr. and Mrs. Garcia",
+    "status": "Aktif",
+    "phone": "5551472583",
+    "image_url": "../assets/images/image8.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Daniel Miller",
+    "nim": "852963",
+    "dob": "2001-08-12",
+    "address": "765 Ash St",
+    "parents": "Mr. and Mrs. Miller",
+    "status": "Aktif",
+    "phone": "5553691472",
+    "image_url": "../assets/images/image9.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Isabella Clark",
+    "nim": "159357",
+    "dob": "2003-04-18",
+    "address": "678 Beech St",
+    "parents": "Mr. and Mrs. Clark",
+    "status": "Aktif",
+    "phone": "5558529631",
+    "image_url": "../assets/images/image10.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Liam Hernandez",
+    "nim": "456789",
+    "dob": "2002-06-08",
+    "address": "987 Elm St",
+    "parents": "Mr. and Mrs. Hernandez",
+    "status": "Aktif",
+    "phone": "5559638524",
+    "image_url": "../assets/images/image11.jpg"
+  },
+  {
+    "id": 12,
+    "name": "Ava Young",
+    "nim": "987654",
+    "dob": "2004-09-22",
+    "address": "543 Cedar St",
+    "parents": "Mr. and Mrs. Young",
+    "status": "Aktif",
+    "phone": "5556549872",
+    "image_url": "../assets/images/image12.jpg"
   }
 ]

@@ -242,6 +242,12 @@ class _ProfilSiswaState extends State<ProfilSiswa> {
                 buildInfoRow(Icons.people, 'Nama Orang Tua: ${selectedStudent!['parents']}'),
                 buildInfoRow(Icons.info, 'Status: ${selectedStudent!['status']}'),
                 buildInfoRow(Icons.phone, 'No. Telpon: ${selectedStudent!['phone']}'),
+                ElevatedButton(
+                  onPressed: () {
+                    print('Hello, world!');
+                  },
+                  child: Text('Tambah User'),
+                ),
               ],
             ],
           ),
