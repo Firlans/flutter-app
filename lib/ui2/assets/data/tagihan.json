@@ -1,0 +1,70 @@
+[
+  {
+    "bulan": 1,
+    "status_bayar": "lunas",
+    "tanggal_bayar": "2023-01-10",
+    "jumlah_bayar": 500000
+  },
+  {
+    "bulan": 2,
+    "status_bayar": "lunas",
+    "tanggal_bayar": "2023-02-10",
+    "jumlah_bayar": 500000
+  },
+  {
+    "bulan": 3,
+    "status_bayar": "belum lunas",
+    "tanggal_bayar": "",
+    "jumlah_bayar": 500000
+  },
+  {
+    "bulan": 4,
+    "status_bayar": "belum lunas",
+    "tanggal_bayar": "",
+    "jumlah_bayar": 500000
+  },
+  {
+    "bulan": 5,
+    "status_bayar": "belum lunas",
+    "tanggal_bayar": "",
+    "jumlah_bayar": 500000
+  },
+  {
+    "bulan": 6,
+    "status_bayar": "belum lunas",
+    "tanggal_bayar": "",
+    "jumlah_bayar": 500000
+  },
+  {
+    "bulan": 7,
+    "status_bayar": "belum lunas",
+    "tanggal_bayar": "",
+    "jumlah_bayar": 500000
+  },
+  {
+    "bulan": 8,
+    "status_bayar": "belum lunas",
+    "tanggal_bayar": "",
+    "jumlah_bayar": 500000
+  },
+  {
+    "bulan": 9,
+    "status_bayar": "belum lunas",
+    "tanggal_bayar": "",
+    "jumlah_bayar": 500000
+  },
+  {
+    "bulan": 10,
+    "status_bayar": "belum lunas",
+    "tanggal_bayar": "",
+    "jumlah_bayar": 500000
+  },
+  {
+    "bulan": 11,
+    "status_bayar": "belum lunas",
+    "tanggal_bayar": "",
+    "jumlah_bayar": 500000
+  },
+  {
+    "bulan": 12,
+    "status_bayar": "belum
