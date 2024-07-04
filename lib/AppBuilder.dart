@@ -1,16 +1,25 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'ButtonCetak.dart';
 import 'DropdownButton.dart';
 import 'ImageWidget.dart';
 import 'TagihanWidget.dart';
+import 'jsonManager.dart';
 
 class Appbuilder extends StatefulWidget {
+  final String nim; // Tambahkan variabel nim
+
+  Appbuilder({required this.nim}); // Update konstruktor
+
   @override
   _DropdownScreenState createState() => _DropdownScreenState();
 }
 
 class _DropdownScreenState extends State<Appbuilder> {
   String? selectedItem;
+  String? userName;
+  String? imagePath;
   final List<String> items = [
     '2023/2024',
     '2022/2023'
@@ -50,34 +59,44 @@ class _DropdownScreenState extends State<Appbuilder> {
     ],
   };
 
-  List<Map<String, dynamic>> tagihan =
-      []; // Tagihan yang ditampilkan sesuai tahun ajaran dipilih
+  List<Map<String, dynamic>> tagihan = []; // Tagihan yang ditampilkan sesuai tahun ajaran dipilih
 
   @override
   void initState() {
     super.initState();
     // Set tagihan awal saat pertama kali aplikasi dimuat
     tagihan = tagihanData[items.first]!;
+    loadUserData(); // Memuat data pengguna dari JSON
+  }
+
+  // Method untuk memuat data pengguna
+  Future<void> loadUserData() async {
+    final jsonManager = JsonManager("data/profile.json");
+    final userData = await jsonManager.fetchDataByNIM(widget.nim);
+    setState(() {
+      userName = userData['name'];
+      imagePath = 'assets/images/${userData['image_url']}';
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('UAS - DAFA JULIANTO ABDILLAH')),
+      appBar: AppBar(title: Text('UAS - ${userName ?? 'Loading...'}')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            CustomImage(), // menampilkan gambar
+            CustomImage(imagePath: imagePath!), // menampilkan gambar
             SizedBox(height: 20), // Spacer antara tombol dan dropdown
             Center(
-              child: Text('Dafa Julianto Abdillah',
+              child: Text(userName ?? 'Loading...',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ), // Nama pengguna di tengah
             Center(
-              child: Text('NIM: 12345678', style: TextStyle(fontSize: 16)),
+              child: Text('NIM: ${widget.nim}', style: TextStyle(fontSize: 16)),
             ), // NIM di tengah
             SizedBox(height: 20), // Spacer antara tombol dan dropdown
             ButtonCetak(), // Tambahkan tombol "Cetak" di sini
@@ -104,5 +123,3 @@ class _DropdownScreenState extends State<Appbuilder> {
     );
   }
 }
-
-void main() => runApp(MaterialApp(home: Appbuilder()));

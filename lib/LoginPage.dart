@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'AppBuilder.dart';
+import 'jsonManager.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,19 +16,31 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool _isObscure = true;
 
-  void _submit() {
+  void _submit() async {
+    final jsonManager = JsonManager('data/profile.json');
+
     if (_formKey.currentState!.validate()) {
       String username = _usernameController.text;
       String password = _passwordController.text;
-
-      if (username == 'dafa' && password == 'yanto') {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Appbuilder()),
-        );
+      final user = await jsonManager.fetchDataByNIM(password);
+      if (user.isNotEmpty) {
+        // Pastikan ada data yang ditemukan sebelum membandingkan
+        if (user['name'] == username && user['nim'] == password) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => Appbuilder(nim: password)),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Username atau password salah. Silakan coba lagi.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Login gagal. Silakan coba lagi.'),
+            content: Text('Data pengguna tidak ditemukan.'),
             backgroundColor: Colors.red,
           ),
         );
