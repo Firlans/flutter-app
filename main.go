@@ -66,11 +66,11 @@ func main() {
 	r.DELETE("/mahasiswa/:id", mahasiswaController.Delete)
 
 	// TAHUN AJARAN
-	r.POST("/tahun_ajaran", tahunAjaranController.Create)
-	r.GET("/tahun_ajaran/:id", tahunAjaranController.GetByID)
-	r.GET("/tahun_ajaran", tahunAjaranController.GetAll)
-	r.PUT("/tahun_ajaran/:id", tahunAjaranController.Update)
-	r.DELETE("/tahun_ajaran/:id", tahunAjaranController.Delete)
+	r.POST("/tahun-ajaran", tahunAjaranController.Create)
+	r.GET("/tahun-ajaran/:id", tahunAjaranController.GetByID)
+	r.GET("/tahun-ajaran", tahunAjaranController.GetAll)
+	r.PUT("/tahun-ajaran/:id", tahunAjaranController.Update)
+	r.DELETE("/tahun-ajaran/:id", tahunAjaranController.Delete)
 
 	r.Run(":1233")
 }
