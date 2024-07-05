@@ -29,7 +29,7 @@ class DashboardSiswa extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundImage: AssetImage('assets/logo_UNPAM.png'), // Ganti dengan path gambar profil
+            backgroundImage: AssetImage('images/logo_UNPAM.png'), // Ganti dengan path gambar profil
           ),
           SizedBox(width: 16),
           Column(

@@ -1,6 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+
 import 'halaman_pembayaran.dart';
 
 class TagihanSPP extends StatefulWidget {
@@ -58,6 +64,46 @@ class _TagihanSPPState extends State<TagihanSPP> {
     } catch (e) {
       print('Error fetching tagihan SPP: $e');
     }
+  }
+
+  void _generatePDF(Map<String, dynamic> riwayat) async {
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Center(
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text('Detail Pembayaran', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+                pw.SizedBox(height: 20),
+                pw.Text('Tanggal: ${_formatDate(riwayat['tanggal'])}', style: pw.TextStyle(fontSize: 18)),
+                pw.Text('Jenis Pembayaran: ${riwayat['jenis']}', style: pw.TextStyle(fontSize: 18)),
+                pw.Text('Jumlah: Rp ${_formatCurrency(riwayat['jumlah'])}', style: pw.TextStyle(fontSize: 18)),
+                pw.Text('Metode Pembayaran: ${riwayat['metode']}', style: pw.TextStyle(fontSize: 18)),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+
+    final output = await getTemporaryDirectory();
+    final file = File("${output.path}/pembayaran_spp.pdf");
+    await file.writeAsBytes(await pdf.save());
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('PDF saved at ${file.path}')),
+    );
+  }
+
+  String _formatDate(String date) {
+    // Implement the date formatting logic
+    return date;
+  }
+
+  String _formatCurrency(String amount) {
+    // Implement the currency formatting logic
+    return amount;
   }
 
   @override
@@ -156,12 +202,23 @@ class _TagihanSPPState extends State<TagihanSPP> {
                 Navigator.of(context).pop();
               },
             ),
-            if (tagihan['status'] == 'Belum Lunas')
+            if (tagihan['status'] == 'gagal')
               ElevatedButton(
                 child: Text('Bayar'),
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                   _navigateToHalamanPembayaran(tagihan);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFFFFFFF), // Button color
+                ),
+              ),
+            if(tagihan['status'] == 'berhasil')
+              ElevatedButton(
+                child: Text('Cetak Bukti'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _generatePDF(tagihan);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFFFFFFF), // Button color
