@@ -17,11 +17,19 @@ func NewTagihanRepository(db *gorm.DB) *TagihanRepository {
 
 func (repository *TagihanRepository) GetProfiles() ([]models.Tagihan, error) {
 	var Tagihans []models.Tagihan
-	query := `SELECT tagihan_spp.bulan, tagihan_spp.jumlah_bayar, transaksi.status, transaksi.tgl_pembayaran 
-	FROM tagihan_spp 
-	LEFT JOIN transaksi 
-	ON tagihan_spp.id_transaksi = transaksi.id 
-	WHERE tagihan_spp.id_transaksi = 1;`
+	query := `SELECT 
+    tagihan_spp.bulan,
+    tagihan_spp.jumlah_bayar,
+    transaksi.status,
+    tagihan_spp.tgl_bayar
+FROM 
+    tagihan_spp
+JOIN 
+    transaksi ON tagihan_spp.id_transaksi = transaksi.id
+JOIN 
+    tahun_ajaran ON tagihan_spp.id_ta = tahun_ajaran.id
+WHERE 
+    tahun_ajaran.periode = '2023/2024';`
 
 	if err := repository.DB.Raw(query).Scan(&Tagihans).Error; err != nil {
 		return nil, err
@@ -32,13 +40,18 @@ func (repository *TagihanRepository) GetProfiles() ([]models.Tagihan, error) {
 func (r *TagihanRepository) GetProfilesID(id int) ([]models.Tagihan, error) {
 	var Tagihans []models.Tagihan
 	query := fmt.Sprintf(`SELECT 
-                mahasiswa.id, mahasiswa.nim, mahasiswa.nama_lengkap, 
-                mahasiswa.nama_ortu, mahasiswa.telp, mahasiswa.status, 
-                tahun_ajaran.periode, tahun_ajaran.tgl_mulai, tahun_ajaran.tgl_akhir, 
-                tahun_ajaran.kurikulum
-              FROM mahasiswa
-              LEFT JOIN tahun_ajaran ON mahasiswa.id_ta = tahun_ajaran.id
-              WHERE mahasiswa.id_ta = %d`, id)
+    tagihan_spp.bulan,
+    tagihan_spp.jumlah_bayar,
+    transaksi.status,
+    tagihan_spp.tgl_bayar
+FROM 
+    tagihan_spp
+JOIN 
+    transaksi ON tagihan_spp.id_transaksi = transaksi.id
+JOIN 
+    tahun_ajaran ON tagihan_spp.id_ta = tahun_ajaran.id
+WHERE 
+    tahun_ajaran.periode = %d;`, id)
 
 	err := r.DB.Raw(query).Scan(&Tagihans).Error
 	return Tagihans, err

@@ -3,10 +3,10 @@ package main
 import (
 	"time"
 	"tugasuas/config"
-	"tugasuas/controllers/TagihanControlers"
 	"tugasuas/controllers/komponenControllers"
 	"tugasuas/controllers/mahasiswaControllers"
 	"tugasuas/controllers/profilControlers"
+	TagihanControlers "tugasuas/controllers/tagihanControlers"
 	controllers "tugasuas/controllers/tahunAjaranControllers"
 	"tugasuas/repositories"
 
