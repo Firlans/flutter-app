@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"tugasuas/config"
 	models "tugasuas/models/komponen"
 
 	"gorm.io/gorm"
@@ -26,8 +27,21 @@ func (r *KomponenRepository) FindByID(id int) (models.Komponen, error) {
 	return komponen, err
 }
 
-func (r *KomponenRepository) Update(m *models.Komponen) error {
-	return r.DB.Save(m).Error
+func (r *KomponenRepository) Update(id int) error {
+	var komponen models.Komponen
+
+	db := config.ConnectDatabase()
+	query := "UPDATE komponen SET biaya = ? WHERE id = ?"
+
+	// komponen.ID = id
+	err := db.Exec(query, komponen.Biaya, komponen.ID).Error
+	return err
+
+	// ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// }
+
+	// func (r *KomponenRepository) Update(m *models.Komponen) error {
+	// 	return r.DB.Save(m).Error
 }
 
 func (r *KomponenRepository) Delete(id int) error {

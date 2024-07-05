@@ -3,7 +3,6 @@ package komponenControllers
 import (
 	"net/http"
 	"strconv"
-	"tugasuas/config"
 	models "tugasuas/models/komponen"
 	"tugasuas/repositories"
 
@@ -56,14 +55,19 @@ func (c *KomponenController) Update(ctx *gin.Context) {
 		return
 	}
 
-	db := config.ConnectDatabase()
-	query := "UPDATE komponen SET biaya = ? WHERE id = ?"
-
-	komponen.ID = id
-	if err := db.Exec(query, komponen.Biaya, komponen.ID).Error; err != nil {
+	if err := c.Repo.Update(id); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	// db := config.ConnectDatabase()
+	// query := "UPDATE komponen SET biaya = ? WHERE id = ?"
+
+	// komponen.ID = id
+	// if err := db.Exec(query, komponen.Biaya, komponen.ID).Error; err != nil {
+	// 	ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// 	return
+	// }
 	ctx.JSON(http.StatusOK, komponen)
 	// komponen.ID = id
 	// if err := c.Repo.Update(&komponen); err != nil {
