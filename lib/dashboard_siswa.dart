@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'profil_siswa.dart';
-import 'tagihan_spp.dart';
-import 'tagihan_lain.dart';
-import 'riwayat_pembayaran.dart';
-import 'manajemen_tahun_ajaran.dart'; // Import untuk Manajemen Tahun Ajaran
 
 class DashboardSiswa extends StatelessWidget {
   @override

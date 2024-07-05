@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ProfilSiswa extends StatefulWidget {
   @override
@@ -6,53 +8,37 @@ class ProfilSiswa extends StatefulWidget {
 }
 
 class _ProfilSiswaState extends State<ProfilSiswa> {
-  Map<String, dynamic> siswaData = {
-    'nis': '1234567890',
-    'nama': 'John Doe',
-    'alamat': 'Jl. Contoh No. 123',
-    'tanggal_lahir': '2000-01-01',
-    'jenis_kelamin': 'Laki-laki',
-    'agama': 'Islam',
-    'nama_ortu': 'Jane Doe',
-    'telp': '08123456789',
-    'foto': 'https://example.com/photo.jpg',
-    'status': 'Aktif',
-    'kelas': '8',
-    'nomor_absen': '1',
-  };
+  List<Map<String, dynamic>> siswaList = [];
+  Map<String, dynamic> siswaData = {};
 
-  List<Map<String, dynamic>> siswaList = [
-    {
-      'nis': '1234567890',
-      'nama': 'John Doe',
-      'alamat': 'Jl. Contoh No. 123',
-      'tanggal_lahir': '2000-01-01',
-      'jenis_kelamin': 'Laki-laki',
-      'agama': 'Islam',
-      'nama_ortu': 'Jane Doe',
-      'telp': '08123456789',
-      'foto': 'https://example.com/photo.jpg',
-      'status': 'Aktif',
-      'kelas': '8',
-      'nomor_absen': '1',
-    },
-    {
-      'nis': '0987654321',
-      'nama': 'Jane Smith',
-      'alamat': 'Jl. Contoh No. 456',
-      'tanggal_lahir': '2001-02-02',
-      'jenis_kelamin': 'Perempuan',
-      'agama': 'Kristen',
-      'nama_ortu': 'John Smith',
-      'telp': '08234567890',
-      'foto': 'https://example.com/photo2.jpg',
-      'status': 'Aktif',
-      'kelas': '9',
-      'nomor_absen': '2',
-    },
-  ];
+  String selectedNIS = '';
 
-  String selectedNIS = '1234567890';
+  @override
+  void initState() {
+    super.initState();
+    fetchData(); // Call the function to fetch data when the widget initializes
+  }
+
+  Future<void> fetchData() async {
+    final url = Uri.parse('http://localhost:1233/mahasiswa');
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final List<dynamic> responseData = json.decode(response.body);
+        setState(() {
+          siswaList = responseData.map((data) => Map<String, dynamic>.from(data)).toList();
+          if (siswaList.isNotEmpty) {
+            selectedNIS = siswaList[0]['Nim']; // Select the first NIS by default
+            siswaData = siswaList[0];
+          }
+        });
+      } else {
+        print('Failed to load data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,14 +109,14 @@ class _ProfilSiswaState extends State<ProfilSiswa> {
             children: [
               CircleAvatar(
                 radius: 30,
-                backgroundImage: NetworkImage(siswaData['foto']),
+                backgroundImage: NetworkImage(siswaData['Foto'] ?? ''),
               ),
               SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    siswaData['nama'],
+                    siswaData['NamaLengkap'] ?? '',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -138,7 +124,7 @@ class _ProfilSiswaState extends State<ProfilSiswa> {
                     ),
                   ),
                   Text(
-                    'Kelas ${siswaData['kelas']} | Absen ${siswaData['nomor_absen']}',
+                    'Kelas ${siswaData['Kelas'] ?? ''} | Absen ${siswaData['nomor_absen'] ?? ''}',
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: 14,
@@ -159,13 +145,13 @@ class _ProfilSiswaState extends State<ProfilSiswa> {
       onChanged: (String? newValue) {
         setState(() {
           selectedNIS = newValue!;
-          siswaData = siswaList.firstWhere((siswa) => siswa['nis'] == selectedNIS);
+          siswaData = siswaList.firstWhere((siswa) => siswa['Nim'] == selectedNIS);
         });
       },
       items: siswaList.map<DropdownMenuItem<String>>((Map<String, dynamic> siswa) {
         return DropdownMenuItem<String>(
-          value: siswa['nis'],
-          child: Text(siswa['nis']),
+          value: siswa['Nim'],
+          child: Text(siswa['Nim']),
         );
       }).toList(),
     );
@@ -173,14 +159,14 @@ class _ProfilSiswaState extends State<ProfilSiswa> {
 
   Widget _buildInfoGrid() {
     List<MapEntry<String, String>> items = [
-      MapEntry('NIS', siswaData['nis']),
-      MapEntry('Alamat', siswaData['alamat']),
-      MapEntry('Tanggal Lahir', siswaData['tanggal_lahir']),
-      MapEntry('Jenis Kelamin', siswaData['jenis_kelamin']),
-      MapEntry('Agama', siswaData['agama']),
-      MapEntry('Nama Orang Tua', siswaData['nama_ortu']),
-      MapEntry('Telepon', siswaData['telp']),
-      MapEntry('Status', siswaData['status']),
+      MapEntry('NIS', siswaData['Nim'] ?? ''),
+      MapEntry('Alamat', siswaData['Alamat'] ?? ''),
+      MapEntry('Tanggal Lahir', siswaData['tanggal_lahir'] ?? ''),
+      MapEntry('Jenis Kelamin', siswaData['jenis_kelamin'] ?? ''),
+      MapEntry('Agama', siswaData['agama'] ?? ''),
+      MapEntry('Nama Orang Tua', siswaData['NamaOrtu'] ?? ''),
+      MapEntry('Telepon', siswaData['Telp'] ?? ''),
+      MapEntry('Status', siswaData['Status'] ?? ''),
     ];
 
     return GridView.builder(
@@ -271,10 +257,4 @@ class _ProfilSiswaState extends State<ProfilSiswa> {
       },
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: ProfilSiswa(),
-  ));
 }

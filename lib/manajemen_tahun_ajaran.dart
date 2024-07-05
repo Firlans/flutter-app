@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class ManajemenTahunAjaran extends StatefulWidget {
   @override
@@ -6,11 +8,36 @@ class ManajemenTahunAjaran extends StatefulWidget {
 }
 
 class _ManajemenTahunAjaranState extends State<ManajemenTahunAjaran> {
-  List<Map<String, dynamic>> tahunAjaranList = [
-    {'id': 1, 'tahun_ajaran': '2022/2023', 'is_active': false},
-    {'id': 2, 'tahun_ajaran': '2023/2024', 'is_active': true},
-    {'id': 3, 'tahun_ajaran': '2024/2025', 'is_active': false},
-  ];
+  List<Map<String, dynamic>> tahunAjaranList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch data from API when widget initializes
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final url = Uri.parse('http://localhost:1233/tahun-ajaran');
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        setState(() {
+          tahunAjaranList = data.map((item) => {
+            'id': item['id'],
+            'tahun_ajaran': '${item['periode']}/${item['periode'] + 1}',
+            'is_active': false,
+          }).toList();
+        });
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      // Handle error
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,3 +196,4 @@ class _ManajemenTahunAjaranState extends State<ManajemenTahunAjaran> {
     );
   }
 }
+
