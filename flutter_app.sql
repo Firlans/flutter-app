@@ -111,16 +111,16 @@ VALUES
 -- INSERT INTO mahasiswa
 INSERT INTO mahasiswa (id_ta, nim, nama_lengkap, tanggal_lahir, alamat, nama_ortu, telp, foto, status)
 VALUES
-    (1, '211011401085', 'Firlan Syah', '1998-10-14', 'Rahasia', 'rahasia','081234567898', NULL, 'AKTIF'),
-    (2, '211011401086', 'Aditya Pratama', '1999-05-20', 'Jl. Merdeka No. 10', 'Ibu Adinda', '081234567899', NULL, 'AKTIF'),
-    (3, '211011401087', 'Budi Santoso', '1998-12-30', 'Jl. Kenanga No. 5', 'Bapak Budi', '081234567890', NULL, 'AKTIF'),
-    (4, '211011401088', 'Citra Dewi', '2000-02-15', 'Jl. Anggrek No. 3', 'Ibu Citra', '081234567891', NULL, 'AKTIF'),
-    (5, '211011401089', 'Desi Permata', '1999-09-05', 'Jl. Mawar No. 8', 'Bapak Desi', '081234567892', NULL, 'AKTIF'),
-    (6, '211011401090', 'Eko Satrio', '2000-07-18', 'Jl. Dahlia No. 2', 'Ibu Eko', '081234567893', NULL, 'AKTIF'),
-    (7, '211011401091', 'Fajar Wisnu', '1998-03-25', 'Jl. Melati No. 1', 'Bapak Fajar', '081234567894', NULL, 'AKTIF'),
-    (8, '211011401092', 'Gita Purnama', '1999-11-12', 'Jl. Puspa No. 7', 'Ibu Gita', '081234567895', NULL, 'AKTIF'),
-    (1, '211011401093', 'Hadi Susanto', '2000-08-28', 'Jl. Kenari No. 12', 'Bapak Hadi', '081234567896', NULL, 'AKTIF'),
-    (2, '211011401094', 'Ika Putri', '1999-04-17', 'Jl. Seroja No. 15', 'Ibu Ika', '081234567897', NULL, 'AKTIF');
+    (1, '211011401085', 'Firlan Syah', '1998-10-14', 'Rahasia', 'rahasia','081234567898', "image1.jpeg", 'AKTIF'),
+    (2, '211011401086', 'Aditya Pratama', '1999-05-20', 'Jl. Merdeka No. 10', 'Ibu Adinda', '081234567899', "image2.jpeg", 'AKTIF'),
+    (3, '211011401087', 'Budi Santoso', '1998-12-30', 'Jl. Kenanga No. 5', 'Bapak Budi', '081234567890', "image3.jpeg", 'AKTIF'),
+    (4, '211011401088', 'Citra Dewi', '2000-02-15', 'Jl. Anggrek No. 3', 'Ibu Citra', '081234567891', "image4.jpeg", 'AKTIF'),
+    (5, '211011401089', 'Desi Permata', '1999-09-05', 'Jl. Mawar No. 8', 'Bapak Desi', '081234567892', "image5.jpeg", 'AKTIF'),
+    (6, '211011401090', 'Eko Satrio', '2000-07-18', 'Jl. Dahlia No. 2', 'Ibu Eko', '081234567893', "image6.jpeg", 'AKTIF'),
+    (7, '211011401091', 'Fajar Wisnu', '1998-03-25', 'Jl. Melati No. 1', 'Bapak Fajar', '081234567894', "image7.jpeg", 'AKTIF'),
+    (8, '211011401092', 'Gita Purnama', '1999-11-12', 'Jl. Puspa No. 7', 'Ibu Gita', '081234567895', "image8.jpeg", 'AKTIF'),
+    (1, '211011401093', 'Hadi Susanto', '2000-08-28', 'Jl. Kenari No. 12', 'Bapak Hadi', '081234567896', "image9.jpeg", 'AKTIF'),
+    (2, '211011401094', 'Ika Putri', '1999-04-17', 'Jl. Seroja No. 15', 'Ibu Ika', '081234567897', "image0.jpeg", 'AKTIF');
 
 -- INSERT DATA komponen
 INSERT INTO komponen (kode_komponen, nama_komponen, id_ta, biaya, kode_kelas)
@@ -187,3 +187,22 @@ VALUES
     (8, 8, 8, 8, '2028-02-10', 1),
     (9, 9, 9, 1, '2029-03-15', 1),
     (10, 10, 10, 2, '2030-04-20', 1);
+
+
+SELECT 
+    transaksi.id AS id_transaksi,
+    transaksi.kode_transaksi,
+    transaksi.id_mahasiswa,
+    transaksi.id_pembayaran,
+    transaksi.tgl_pembayaran,
+    transaksi.status,
+    tahun_ajaran.periode,
+    tahun_ajaran.tgl_mulai,
+    tahun_ajaran.tgl_akhir,
+    tahun_ajaran.kurikulum
+FROM 
+    transaksi
+INNER JOIN 
+    tahun_ajaran ON transaksi.id_ta = tahun_ajaran.id
+WHERE 
+    tahun_ajaran.periode = 2023;
