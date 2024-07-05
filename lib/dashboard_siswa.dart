@@ -3,6 +3,7 @@ import 'profil_siswa.dart';
 import 'tagihan_spp.dart';
 import 'tagihan_lain.dart';
 import 'riwayat_pembayaran.dart';
+import 'manajemen_tahun_ajaran.dart'; // Import untuk Manajemen Tahun Ajaran
 
 class DashboardSiswa extends StatelessWidget {
   @override
@@ -14,7 +15,7 @@ class DashboardSiswa extends StatelessWidget {
           children: [
             _buildHeader(),
             SizedBox(height: 20),
-            _buildMenuGrid(context),
+            _buildMenuGrid(context), // Menampilkan grid menu
           ],
         ),
       ),
@@ -43,7 +44,7 @@ class DashboardSiswa extends StatelessWidget {
                 ),
               ),
               Text(
-                'Class 8 | Roll no 1',
+                'Kelas 8 | Nomor Induk 1',
                 style: TextStyle(
                   color: Colors.white70,
                   fontSize: 14,
@@ -81,40 +82,36 @@ class DashboardSiswa extends StatelessWidget {
                 icon: Icons.person,
                 label: 'Profil',
                 color: Colors.blue,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfilSiswa()),
-                ),
+                onTap: () => Navigator.pushNamed(context, '/profile'),
               ),
               _buildMenuItem(
                 context,
                 icon: Icons.receipt_long,
                 label: 'Tagihan SPP',
                 color: Colors.green,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TagihanSPP()),
-                ),
+                onTap: () => Navigator.pushNamed(context, '/spp_bills'),
               ),
               _buildMenuItem(
                 context,
-                icon: Icons.account_balance_wallet,
-                label: 'Tagihan Lain',
-                color: Colors.orange,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TagihanLain()),
-                ),
+                icon: Icons.receipt_long,
+                label: 'Tagihan SPP',
+                color: Colors.green,
+                onTap: () => Navigator.pushNamed(context, '/spp_bills'),
               ),
+
               _buildMenuItem(
                 context,
                 icon: Icons.history,
                 label: 'Riwayat Pembayaran',
                 color: Colors.purple,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RiwayatPembayaran()),
-                ),
+                onTap: () => Navigator.pushNamed(context, '/payment_history'),
+              ),
+              _buildMenuItem(
+                context,
+                icon: Icons.school,
+                label: 'Manajemen Tahun Ajaran',
+                color: Colors.deepOrange,
+                onTap: () => Navigator.pushNamed(context, '/manage_academic_year'),
               ),
             ],
           ),
