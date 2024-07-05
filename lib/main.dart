@@ -1,18 +1,39 @@
 import 'package:flutter/material.dart';
-import 'LoginPage.dart';
+import 'login_page.dart';
+import 'dashboard_siswa.dart';
+import 'profil_siswa.dart';
+import 'tagihan_spp.dart';
+import 'tagihan_lain.dart';
+import 'riwayat_pembayaran.dart';
+import 'halaman_pembayaran.dart';
+import 'manajemen_tahun_ajaran.dart';
+// import 'manage_payment_components_screen.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Aplikasi Tagihan',
+      title: 'Aplikasi Pembayaran Sekolah',
       theme: ThemeData(
-        primarySwatch: Colors.teal,
-        fontFamily: 'Roboto',
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LoginPage(),
+        '/dashboard': (context) => DashboardSiswa(),
+        '/profile': (context) => ProfilSiswa(),
+        '/spp_bills': (context) => TagihanSPP(),
+        '/other_bills': (context) => TagihanLain(),
+        '/payment_history': (context) => RiwayatPembayaran(),
+        // '/payment': (context) => HalamanPembayaran(),
+        '/manage_academic_year': (context) => ManajemenTahunAjaran(),
+        // '/manage_payment_components': (context) => ManagePaymentComponentsScreen(),
+      },
     );
   }
 }
