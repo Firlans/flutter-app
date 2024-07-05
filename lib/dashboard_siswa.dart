@@ -29,14 +29,14 @@ class DashboardSiswa extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundImage: AssetImage('assets/profile_image.png'), // Ganti dengan path gambar profil
+            backgroundImage: AssetImage('assets/logo_UNPAM.png'), // Ganti dengan path gambar profil
           ),
           SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Divy Jani',
+                'Dashboard',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -44,7 +44,7 @@ class DashboardSiswa extends StatelessWidget {
                 ),
               ),
               Text(
-                'Kelas 8 | Nomor Induk 1',
+                'Aplikasi Pengelola Tagihan ',
                 style: TextStyle(
                   color: Colors.white70,
                   fontSize: 14,
