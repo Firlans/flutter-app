@@ -13,9 +13,11 @@ CREATE TABLE  mahasiswa(
     id_ta INT,
     nim CHAR(12),
     nama_lengkap VARCHAR(255),
+    tanggal_lahir DATE,
+    alamat VARCHAR(255),
     nama_ortu VARCHAR(255),
     telp CHAR(15),
-    foto BLOB,
+    foto VARCHAR(255),
     status ENUM("AKTIF", "TIDAK AKTIF"),
     PRIMARY KEY(id),
     CONSTRAINT FK_MAHASISWA_KE_TAHUN_AJARAN FOREIGN KEY(id_ta) REFERENCES tahun_ajaran(id)
