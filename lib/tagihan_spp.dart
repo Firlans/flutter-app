@@ -11,6 +11,7 @@ class TagihanSPP extends StatefulWidget {
 class _TagihanSPPState extends State<TagihanSPP> {
   String selectedTahunAjaran = '2023/2024';
   List<String> tahunAjaranList = [];
+  List<Map<String, dynamic>> tagihanList = [];
 
   @override
   void initState() {
@@ -19,41 +20,45 @@ class _TagihanSPPState extends State<TagihanSPP> {
   }
 
   Future<void> fetchTahunAjaran() async {
-    final response = await http.get(Uri.parse('http://localhost:1233/tahun-ajaran'));
-
-    if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
-      setState(() {
-        tahunAjaranList = data.map((item) => item['periode'].toString()).toList();
-        if (tahunAjaranList.isNotEmpty) {
-          selectedTahunAjaran = tahunAjaranList.first;
-          fetchTagihanSPP(selectedTahunAjaran); // Fetch tagihan SPP based on default selected year
-        }
-      });
-    } else {
-      throw Exception('Failed to load tahun ajaran');
+    try {
+      final response = await http.get(Uri.parse('http://localhost:1233/tahun-ajaran'));
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        setState(() {
+          tahunAjaranList = data.map((item) => item['periode'].toString()).toList();
+          if (tahunAjaranList.isNotEmpty) {
+            selectedTahunAjaran = tahunAjaranList.first;
+            fetchTagihanSPP(selectedTahunAjaran); // Fetch tagihan SPP based on default selected year
+          }
+        });
+      } else {
+        throw Exception('Failed to load tahun ajaran: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching tahun ajaran: $e');
     }
   }
 
   Future<void> fetchTagihanSPP(String tahunAjaran) async {
-    final response = await http.get(Uri.parse('http://localhost:1233/tagihan-spp/$tahunAjaran'));
-
-    if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
-      setState(() {
-        tagihanList = data.map((item) => {
-          'bulan': item['bulan'],
-          'jumlah': item['jumlah_bayar'],
-          'status': item['status'] ? 'Lunas' : 'Belum Lunas',
-          'tanggal_bayar': item['tgl_bayar'] ?? '-',
-        }).toList();
-      });
-    } else {
-      throw Exception('Failed to load tagihan SPP');
+    try {
+      final response = await http.get(Uri.parse('http://localhost:1233/tagihan/$tahunAjaran'));
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        setState(() {
+          tagihanList = data.map((item) => {
+            'bulan': item['Bulan'],
+            'jumlah': item['JumlahBayar'],
+            'status': item['Status'],
+            'tanggal_bayar': item['TglPembayaran'] ?? '-',
+          }).toList();
+        });
+      } else {
+        throw Exception('Failed to load tagihan SPP: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching tagihan SPP: $e');
     }
   }
-
-  List<Map<String, dynamic>> tagihanList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +96,7 @@ class _TagihanSPPState extends State<TagihanSPP> {
                   if (newValue != null) {
                     setState(() {
                       selectedTahunAjaran = newValue;
+                      fetchTagihanSPP(selectedTahunAjaran); // Fetch tagihan SPP based on selected year
                     });
                   }
                 },
@@ -111,7 +117,7 @@ class _TagihanSPPState extends State<TagihanSPP> {
                       subtitle: Text('Rp ${tagihan['jumlah']}'),
                       trailing: Chip(
                         label: Text(tagihan['status']),
-                        backgroundColor: tagihan['status'] == 'Lunas' ? Colors.green : Colors.red,
+                        backgroundColor: tagihan['status'] == 'berhasil' ? Colors.green : Colors.red,
                       ),
                       onTap: () {
                         _showTagihanDetail(tagihan);
