@@ -21,6 +21,39 @@ class _ProfilSiswaState extends State<ProfilSiswa> {
     'nomor_absen': '1',
   };
 
+  List<Map<String, dynamic>> siswaList = [
+    {
+      'nis': '1234567890',
+      'nama': 'John Doe',
+      'alamat': 'Jl. Contoh No. 123',
+      'tanggal_lahir': '2000-01-01',
+      'jenis_kelamin': 'Laki-laki',
+      'agama': 'Islam',
+      'nama_ortu': 'Jane Doe',
+      'telp': '08123456789',
+      'foto': 'https://example.com/photo.jpg',
+      'status': 'Aktif',
+      'kelas': '8',
+      'nomor_absen': '1',
+    },
+    {
+      'nis': '0987654321',
+      'nama': 'Jane Smith',
+      'alamat': 'Jl. Contoh No. 456',
+      'tanggal_lahir': '2001-02-02',
+      'jenis_kelamin': 'Perempuan',
+      'agama': 'Kristen',
+      'nama_ortu': 'John Smith',
+      'telp': '08234567890',
+      'foto': 'https://example.com/photo2.jpg',
+      'status': 'Aktif',
+      'kelas': '9',
+      'nomor_absen': '2',
+    },
+  ];
+
+  String selectedNIS = '1234567890';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +77,8 @@ class _ProfilSiswaState extends State<ProfilSiswa> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      _buildDropdown(),
+                      SizedBox(height: 20),
                       Text(
                         'Informasi Siswa',
                         style: TextStyle(
@@ -115,6 +150,24 @@ class _ProfilSiswaState extends State<ProfilSiswa> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildDropdown() {
+    return DropdownButton<String>(
+      value: selectedNIS,
+      onChanged: (String? newValue) {
+        setState(() {
+          selectedNIS = newValue!;
+          siswaData = siswaList.firstWhere((siswa) => siswa['nis'] == selectedNIS);
+        });
+      },
+      items: siswaList.map<DropdownMenuItem<String>>((Map<String, dynamic> siswa) {
+        return DropdownMenuItem<String>(
+          value: siswa['nis'],
+          child: Text(siswa['nis']),
+        );
+      }).toList(),
     );
   }
 
@@ -218,4 +271,10 @@ class _ProfilSiswaState extends State<ProfilSiswa> {
       },
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: ProfilSiswa(),
+  ));
 }
