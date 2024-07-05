@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'halaman_pembayaran.dart';
 
 class TagihanSPP extends StatefulWidget {
@@ -8,16 +10,50 @@ class TagihanSPP extends StatefulWidget {
 
 class _TagihanSPPState extends State<TagihanSPP> {
   String selectedTahunAjaran = '2023/2024';
-  List<String> tahunAjaranList = ['2022/2023', '2023/2024', '2024/2025'];
+  List<String> tahunAjaranList = [];
 
-  // Data dummy untuk contoh
-  List<Map<String, dynamic>> tagihanList = [
-    {'bulan': 'Juli', 'jumlah': 500000, 'status': 'Lunas', 'tanggal_bayar': '2023-07-05'},
-    {'bulan': 'Agustus', 'jumlah': 500000, 'status': 'Lunas', 'tanggal_bayar': '2023-08-03'},
-    {'bulan': 'September', 'jumlah': 500000, 'status': 'Belum Lunas', 'tanggal_bayar': '-'},
-    {'bulan': 'Oktober', 'jumlah': 500000, 'status': 'Belum Lunas', 'tanggal_bayar': '-'},
-    // Tambahkan data untuk bulan-bulan lainnya
-  ];
+  @override
+  void initState() {
+    super.initState();
+    fetchTahunAjaran();
+  }
+
+  Future<void> fetchTahunAjaran() async {
+    final response = await http.get(Uri.parse('http://localhost:1233/tahun-ajaran'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      setState(() {
+        tahunAjaranList = data.map((item) => item['periode'].toString()).toList();
+        if (tahunAjaranList.isNotEmpty) {
+          selectedTahunAjaran = tahunAjaranList.first;
+          fetchTagihanSPP(selectedTahunAjaran); // Fetch tagihan SPP based on default selected year
+        }
+      });
+    } else {
+      throw Exception('Failed to load tahun ajaran');
+    }
+  }
+
+  Future<void> fetchTagihanSPP(String tahunAjaran) async {
+    final response = await http.get(Uri.parse('http://localhost:1233/tagihan-spp/$tahunAjaran'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      setState(() {
+        tagihanList = data.map((item) => {
+          'bulan': item['bulan'],
+          'jumlah': item['jumlah_bayar'],
+          'status': item['status'] ? 'Lunas' : 'Belum Lunas',
+          'tanggal_bayar': item['tgl_bayar'] ?? '-',
+        }).toList();
+      });
+    } else {
+      throw Exception('Failed to load tagihan SPP');
+    }
+  }
+
+  List<Map<String, dynamic>> tagihanList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +78,7 @@ class _TagihanSPPState extends State<TagihanSPP> {
                 if (newValue != null) {
                   setState(() {
                     selectedTahunAjaran = newValue;
-                    // TODO: Ambil data tagihan berdasarkan tahun ajaran yang dipilih
+                    fetchTagihanSPP(newValue); // Fetch tagihan SPP based on selected year
                   });
                 }
               },
@@ -102,7 +138,7 @@ class _TagihanSPPState extends State<TagihanSPP> {
               ElevatedButton(
                 child: Text('Bayar'),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Tutup dialog
+                  Navigator.of(context).pop(); // Close the dialog
                   _navigateToHalamanPembayaran(tagihan);
                 },
               ),
