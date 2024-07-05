@@ -37,24 +37,32 @@ class _TagihanLainState extends State<TagihanLain> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Tagihan Lain'),
+        centerTitle: true,
+        backgroundColor: Color(0xFF0066A2),
       ),
-      body: ListView.builder(
-        itemCount: tagihanList.length,
-        itemBuilder: (context, index) {
-          final tagihan = tagihanList[index];
-          return Card(
-            margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: ListTile(
-              title: Text(tagihan['nama']),
-              subtitle: Text('Rp ${tagihan['jumlah']}'),
-              trailing: Chip(
-                label: Text(tagihan['status']),
-                backgroundColor: tagihan['status'] == 'Lunas' ? Colors.green : Colors.red,
+      body: Container(
+        color: Color(0xFFF5F5F5), // Light background color
+        child: ListView.builder(
+          itemCount: tagihanList.length,
+          itemBuilder: (context, index) {
+            final tagihan = tagihanList[index];
+            return Card(
+              margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
-              onTap: () => _showTagihanDetail(tagihan),
-            ),
-          );
-        },
+              child: ListTile(
+                title: Text(tagihan['nama']),
+                subtitle: Text('Rp ${tagihan['jumlah']}'),
+                trailing: Chip(
+                  label: Text(tagihan['status']),
+                  backgroundColor: tagihan['status'] == 'Lunas' ? Colors.green : Colors.red,
+                ),
+                onTap: () => _showTagihanDetail(tagihan),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -84,10 +92,12 @@ class _TagihanLainState extends State<TagihanLain> {
               ElevatedButton(
                 child: Text('Bayar'),
                 onPressed: () {
-                  // TODO: Implementasi proses pembayaran
                   Navigator.of(context).pop();
                   _showPaymentConfirmation(tagihan);
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFFFFFFF), // Button color
+                ),
               ),
           ],
         );

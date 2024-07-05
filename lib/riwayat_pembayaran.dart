@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class RiwayatPembayaran extends StatefulWidget {
   @override
@@ -21,29 +24,37 @@ class _RiwayatPembayaranState extends State<RiwayatPembayaran> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Riwayat Pembayaran'),
+        centerTitle: true,
+        backgroundColor: Color(0xFF0066A2),
       ),
-      body: ListView.builder(
-        itemCount: riwayatList.length,
-        itemBuilder: (context, index) {
-          final riwayat = riwayatList[index];
-          return Card(
-            margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: ListTile(
-              title: Text('${riwayat['jenis']} - ${_formatDate(riwayat['tanggal'])}'),
-              subtitle: Text('Metode: ${riwayat['metode']}'),
-              trailing: Text(
-                'Rp ${_formatCurrency(riwayat['jumlah'])}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
+      body: Container(
+        color: Color(0xFFF5F5F5), // Light background color
+        child: ListView.builder(
+          itemCount: riwayatList.length,
+          itemBuilder: (context, index) {
+            final riwayat = riwayatList[index];
+            return Card(
+              margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
-              onTap: () {
-                _showRiwayatDetail(riwayat);
-              },
-            ),
-          );
-        },
+              child: ListTile(
+                title: Text('${riwayat['jenis']} - ${_formatDate(riwayat['tanggal'])}'),
+                subtitle: Text('Metode: ${riwayat['metode']}'),
+                trailing: Text(
+                  'Rp ${_formatCurrency(riwayat['jumlah'])}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
+                ),
+                onTap: () {
+                  _showRiwayatDetail(riwayat);
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -84,13 +95,43 @@ class _RiwayatPembayaranState extends State<RiwayatPembayaran> {
             ElevatedButton(
               child: Text('Cetak Bukti'),
               onPressed: () {
-                // TODO: Implementasi cetak bukti pembayaran
                 Navigator.of(context).pop();
+                _generatePDF(riwayat);
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFFFFFFF), // Button color
+              ),
             ),
           ],
         );
       },
+    );
+  }
+
+  void _generatePDF(Map<String, dynamic> riwayat) async {
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) {
+          return pw.Center(
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text('Detail Pembayaran', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+                pw.SizedBox(height: 20),
+                pw.Text('Tanggal: ${_formatDate(riwayat['tanggal'])}', style: pw.TextStyle(fontSize: 18)),
+                pw.Text('Jenis Pembayaran: ${riwayat['jenis']}', style: pw.TextStyle(fontSize: 18)),
+                pw.Text('Jumlah: Rp ${_formatCurrency(riwayat['jumlah'])}', style: pw.TextStyle(fontSize: 18)),
+                pw.Text('Metode Pembayaran: ${riwayat['metode']}', style: pw.TextStyle(fontSize: 18)),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+
+    await Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async => pdf.save(),
     );
   }
 }
