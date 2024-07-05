@@ -7,6 +7,7 @@ import (
 	"tugasuas/controllers/komponenControllers"
 	"tugasuas/controllers/mahasiswaControllers"
 	"tugasuas/controllers/profilControlers"
+	controllers "tugasuas/controllers/tahunAjaranControllers"
 	"tugasuas/repositories"
 
 	"github.com/gin-contrib/cors"
@@ -27,6 +28,9 @@ func main() {
 
 	komponenRepo := repositories.KomponenRepository{DB: db}
 	komponenController := komponenControllers.KomponenController{Repo: komponenRepo}
+
+	tahunAjaranRepository := repositories.NewTahunAjaranRepository(db)
+	tahunAjaranController := controllers.NewTahunAjaranController(tahunAjaranRepository)
 
 	r := gin.Default()
 
@@ -62,10 +66,11 @@ func main() {
 	r.DELETE("/mahasiswa/:id", mahasiswaController.Delete)
 
 	// TAHUN AJARAN
-	// r.POST("/tahun-ajaran", mahasiswaController.Create)
-	// r.GET("/tahun-ajaran", mahasiswaController.GetAll)
-	// r.GET("/tahun-ajaran/:id", mahasiswaController.GetByID)
-	// r.PUT("/tahun-ajaran/:id", mahasiswaController.Update)
-	// r.DELETE("/tahun-ajaran/:id", mahasiswaController.Delete)
+	r.POST("/tahun_ajaran", tahunAjaranController.Create)
+	r.GET("/tahun_ajaran/:id", tahunAjaranController.GetByID)
+	r.GET("/tahun_ajaran", tahunAjaranController.GetAll)
+	r.PUT("/tahun_ajaran/:id", tahunAjaranController.Update)
+	r.DELETE("/tahun_ajaran/:id", tahunAjaranController.Delete)
+
 	r.Run(":1233")
 }
