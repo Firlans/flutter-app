@@ -4,10 +4,21 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-class SiswaAddScreen extends StatelessWidget {
-  final Function(String, String, String, String, String, String, String, String, String, String) onAddSiswa;
 
-  SiswaAddScreen({required this.onAddSiswa});
+class SiswaAddScreen extends StatelessWidget {
+  final Function(
+      String,
+      String,
+      String,
+      String,
+      String,
+      String,
+      String,
+      String,
+      String,
+      ) onAddSiswa;
+
+  SiswaAddScreen({super.key, required this.onAddSiswa});
 
   final _formKey = GlobalKey<FormState>();
   final Map<String, String> _formData = {
@@ -16,7 +27,6 @@ class SiswaAddScreen extends StatelessWidget {
     'alamat': '',
     'tgl_lahir': '',
     'jenis_kelamin': '',
-    'agama': '',
     'nama_ortu': '',
     'no_tlp': '',
     'foto': '',
@@ -25,7 +35,7 @@ class SiswaAddScreen extends StatelessWidget {
 
   Future<void> _saveFormDataToLocal() async {
     final Directory directory = await getApplicationDocumentsDirectory();
-    final File file = File('${directory.path}/siswa_data.json');
+    final File file = File('${directory.path}/assets/data/data_siswa.json');
 
     // Load existing data if any
     List<dynamic> siswaData = [];
@@ -41,7 +51,7 @@ class SiswaAddScreen extends StatelessWidget {
       'alamat': _formData['alamat'],
       'tgl_lahir': _formData['tgl_lahir'],
       'jenis_kelamin': _formData['jenis_kelamin'],
-      'agama': _formData['agama'],
+
       'nama_ortu': _formData['nama_ortu'],
       'no_tlp': _formData['no_tlp'],
       'foto': _formData['foto'],
@@ -56,17 +66,17 @@ class SiswaAddScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tambah Siswa'),
+        title: const Text('Tambah Siswa'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextFormField(
-                decoration: InputDecoration(labelText: 'NIM'),
+                decoration: const InputDecoration(labelText: 'NIM'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'NIM tidak boleh kosong';
@@ -78,7 +88,7 @@ class SiswaAddScreen extends StatelessWidget {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Nama Lengkap'),
+                decoration: const InputDecoration(labelText: 'Nama Lengkap'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Nama lengkap tidak boleh kosong';
@@ -90,7 +100,7 @@ class SiswaAddScreen extends StatelessWidget {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Alamat'),
+                decoration: const InputDecoration(labelText: 'Alamat'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Alamat tidak boleh kosong';
@@ -102,43 +112,36 @@ class SiswaAddScreen extends StatelessWidget {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Tanggal Lahir'),
+                decoration: const InputDecoration(labelText: 'Tanggal Lahir'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Tanggal lahir tidak boleh kosong';
                   }
                   return null;
                 },
-                onSaved: (value) {
-                  _formData['tgl_lahir'] = value!;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Jenis Kelamin'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Jenis kelamin tidak boleh kosong';
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                  );
+                  if (pickedDate != null) {
+                    _formData['tgl_lahir'] = pickedDate.toString();
                   }
-                  return null;
-                },
-                onSaved: (value) {
-                  _formData['jenis_kelamin'] = value!;
                 },
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Agama'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Agama tidak boleh kosong';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _formData['agama'] = value!;
+              const SizedBox(height: 10),
+              RadioGroupWidget(
+                labelText: 'Jenis Kelamin',
+                options: ['Laki-laki', 'Perempuan'],
+                onSelected: (value) {
+                  _formData['jenis_kelamin'] = value;
                 },
               ),
+
               TextFormField(
-                decoration: InputDecoration(labelText: 'Nama Orang Tua'),
+                decoration: const InputDecoration(labelText: 'Nama Orang Tua'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Nama orang tua tidak boleh kosong';
@@ -150,7 +153,7 @@ class SiswaAddScreen extends StatelessWidget {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Nomor Telepon'),
+                decoration: const InputDecoration(labelText: 'Nomor Telepon'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Nomor telepon tidak boleh kosong';
@@ -162,7 +165,7 @@ class SiswaAddScreen extends StatelessWidget {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Foto'),
+                decoration: const InputDecoration(labelText: 'Foto'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Foto tidak boleh kosong';
@@ -173,19 +176,14 @@ class SiswaAddScreen extends StatelessWidget {
                   _formData['foto'] = value!;
                 },
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Status'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Status tidak boleh kosong';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _formData['status'] = value!;
+              RadioGroupWidget(
+                labelText: 'Status',
+                options: ['Aktif', 'Tidak Aktif'],
+                onSelected: (value) {
+                  _formData['status'] = value;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -196,7 +194,6 @@ class SiswaAddScreen extends StatelessWidget {
                       _formData['alamat']!,
                       _formData['tgl_lahir']!,
                       _formData['jenis_kelamin']!,
-                      _formData['agama']!,
                       _formData['nama_ortu']!,
                       _formData['no_tlp']!,
                       _formData['foto']!,
@@ -208,12 +205,64 @@ class SiswaAddScreen extends StatelessWidget {
                     Navigator.of(context).pop();
                   }
                 },
-                child: Text('Simpan'),
+                child: const Text('Simpan'),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class RadioGroupWidget extends StatefulWidget {
+  final String labelText;
+  final List<String> options;
+  final Function(String) onSelected;
+
+  const RadioGroupWidget({
+    required this.labelText,
+    required this.options,
+    required this.onSelected,
+  });
+
+  @override
+  _RadioGroupWidgetState createState() => _RadioGroupWidgetState();
+}
+
+class _RadioGroupWidgetState extends State<RadioGroupWidget> {
+  String? _selectedOption;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            widget.labelText,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Column(
+          children: widget.options
+              .map(
+                (option) => RadioListTile(
+              title: Text(option),
+              value: option,
+              groupValue: _selectedOption,
+              onChanged: (value) {
+                setState(() {
+                  _selectedOption = value as String?;
+                });
+                widget.onSelected(value as String);
+              },
+            ),
+          )
+              .toList(),
+        ),
+      ],
     );
   }
 }

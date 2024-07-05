@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'screens/siswa_screen.dart';
+import 'screens/siswa_add_screen.dart';
+import 'screens/siswa_detail_screen.dart';
+import 'screens/siswa_edit_screen.dart';
 import 'screens/transaksi_screen.dart';
 import 'screens/pembayaran_screen.dart';
 import 'screens/tagihan_spp_screen.dart';
@@ -19,7 +22,17 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomeScreen(),
+        '/add-siswa': (context) => SiswaAddScreen(
+          onAddSiswa: (nim, nama, alamat, tglLahir, jenisKelamin, namaOrtu, noTlp, foto, status) {
+            // Functionality to add student
+          },
+        ),
+        '/siswa-detail': (context) => SiswaDetailScreen(),
+        '/edit-siswa': (context) => SiswaEditScreen(),
+      },
     );
   }
 }
@@ -66,6 +79,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: _screens[_currentIndex],
+      floatingActionButton: _currentIndex == 0
+          ? FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/add-siswa').then((_) {
+            setState(() {});
+          });
+        },
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
+      )
+          : null,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {

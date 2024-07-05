@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 
 class PembayaranScreen extends StatelessWidget {
+  const PembayaranScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         itemCount: 10, // Replace with actual data count
         itemBuilder: (context, index) {
           return Card(
-            margin: EdgeInsets.symmetric(vertical: 8.0),
+            margin: const EdgeInsets.symmetric(vertical: 8.0),
             child: ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              leading: CircleAvatar(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              leading: const CircleAvatar(
                 backgroundColor: Colors.redAccent,
                 child: Icon(Icons.payment, color: Colors.white),
               ),
-              title: Text('Pembayaran $index', style: TextStyle(fontWeight: FontWeight.bold)),
+              title: Text('Pembayaran $index', style: const TextStyle(fontWeight: FontWeight.bold)),
               subtitle: Text('Details about Pembayaran $index'),
-              trailing: Icon(Icons.arrow_forward),
+              trailing: const Icon(Icons.arrow_forward),
               onTap: () {
                 // Navigate to details screen
               },
@@ -30,8 +32,8 @@ class PembayaranScreen extends StatelessWidget {
         onPressed: () {
           // Navigate to add new Pembayaran screen
         },
-        child: Icon(Icons.add),
         backgroundColor: Colors.red,
+        child: const Icon(Icons.add),
       ),
     );
   }

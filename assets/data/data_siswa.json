@@ -1,0 +1,26 @@
+[
+  {
+    "nim": "1234567890",
+    "name": "Siswa 1",
+    "alamat": "Alamat Siswa 1",
+    "tgl_lahir": "2000-01-01",
+    "jenis_kelamin": "Laki-laki",
+    "agama": "Islam",
+    "nama_ortu": "Orang Tua Siswa 1",
+    "no_tlp": "08123456789",
+    "foto": "siswa1.jpg",
+    "status": "Aktif"
+  },
+  {
+    "nim": "0987654321",
+    "name": "Siswa 2",
+    "alamat": "Alamat Siswa 2",
+    "tgl_lahir": "2001-02-02",
+    "jenis_kelamin": "Perempuan",
+    "agama": "Kristen",
+    "nama_ortu": "Orang Tua Siswa 2",
+    "no_tlp": "08765432109",
+    "foto": "siswa2.jpg",
+    "status": "Aktif"
+  }
+]
