@@ -114,23 +114,3 @@ VALUES ();
 -- INSERT DATA
 INSERT INTO pembayaran(id_ta, id_mahasiswa, tgl_pembayaran, jumlah_bayar, metode_bayar)
 VALUES ();
-
-
--- SELECT DATA
-SELECT 
-    mahasiswa.id,
-    mahasiswa.nim,
-    mahasiswa.nama_lengkap,
-    mahasiswa.nama_ortu,
-    mahasiswa.telp,
-    mahasiswa.status,
-    tahun_ajaran.periode,
-    tahun_ajaran.tgl_mulai,
-    tahun_ajaran.tgl_akhir,
-    tahun_ajaran.kurikulum
-FROM 
-    mahasiswa
-LEFT JOIN 
-    tahun_ajaran ON mahasiswa.id_ta = tahun_ajaran.id
-WHERE
-    mahasiswa.id_ta = 1;
