@@ -3,6 +3,7 @@ package main
 import (
 	"time"
 	"tugasuas/config"
+	"tugasuas/controllers/TagihanControlers"
 	"tugasuas/controllers/komponenControllers"
 	"tugasuas/controllers/mahasiswaControllers"
 	"tugasuas/controllers/profilControlers"
@@ -17,6 +18,9 @@ func main() {
 
 	studentRepository := repositories.NewStudentRepository(db)
 	studentController := profilControlers.NewStudentController(studentRepository)
+
+	tagihanRepository := repositories.NewTagihanRepository(db)
+	tagihanController := TagihanControlers.NewTagihanController(tagihanRepository)
 
 	mahasiswaRepo := repositories.MahasiswaRepository{DB: db}
 	mahasiswaController := mahasiswaControllers.MahasiswaController{Repo: mahasiswaRepo}
@@ -39,6 +43,10 @@ func main() {
 	r.GET("/profiles", studentController.GetProfiles)
 	r.GET("/profiles/:id", studentController.GetProfilesID)
 
+	// PROFILES
+	r.GET("/tagihan", tagihanController.GetProfiles)
+	r.GET("/tagihan/:id", tagihanController.GetProfilesID)
+
 	//KOMPONEN
 	r.POST("/komponen", komponenController.Create)
 	r.GET("/komponen", komponenController.GetAll)
@@ -53,5 +61,11 @@ func main() {
 	r.PUT("/mahasiswa/:id", mahasiswaController.Update)
 	r.DELETE("/mahasiswa/:id", mahasiswaController.Delete)
 
+	// TAHUN AJARAN
+	// r.POST("/tahun-ajaran", mahasiswaController.Create)
+	// r.GET("/tahun-ajaran", mahasiswaController.GetAll)
+	// r.GET("/tahun-ajaran/:id", mahasiswaController.GetByID)
+	// r.PUT("/tahun-ajaran/:id", mahasiswaController.Update)
+	// r.DELETE("/tahun-ajaran/:id", mahasiswaController.Delete)
 	r.Run(":1233")
 }
